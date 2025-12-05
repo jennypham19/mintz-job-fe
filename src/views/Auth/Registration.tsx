@@ -2,30 +2,35 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
-import { Email, Lock } from '@mui/icons-material';
+
+
+import { Email, Lock, Person } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
 import { Alert, Box, Button, styled, Typography } from '@mui/material';
+import MuiCard from '@mui/material/Card';
 import ControllerTextField from '@/components/ControllerField/ControllerTextField';
+import CommonImage from '@/components/Image/index';
 import Page from '@/components/Page';
 
+
+
+import bg_logo from "@/assets/images/users/login-page.png";
+import logo_mintz from "@/assets/images/users/mintzdg-logo-1.png";
+import { COLORS } from '@/constants/colors';
 import { ROUTE_PATH } from '@/constants/routes';
 import useBoolean from '@/hooks/useBoolean';
 import useNotification from '@/hooks/useNotification';
 import { registrationSchema } from '@/schemas/auth-schema';
 import { signUp } from '@/services/auth-service';
-import MuiCard from '@mui/material/Card';
-import { COLORS } from '@/constants/colors';
-import bg_logo from "@/assets/images/users/login-page.png"
-import CommonImage from '@/components/Image/index';
-import logo_mintz from "@/assets/images/users/mintzdg-logo-1.png"
 
 
 interface RegistrationFormInputs {
   email: string;
   password: string;
   confirmPassword: string;
+  fullName: string
 }
 
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -94,7 +99,12 @@ export default function Registration() {
   return (
     <Page title='Đăng ký - Mintz Job'>
       <Box height='40px' bgcolor={COLORS.MAIN} display='flex' justifyContent='center'>
-        <Typography fontSize='15px' margin='auto 0' color='#fff'>Góp ý và báo lỗi cho MINTZ JOB <span onClick={() => {}} style={{ cursor: 'pointer', color: '#eb5151ff'}}>tại đây</span></Typography>
+        <Typography fontSize='15px' margin='auto 0' color='#fff'>
+          Góp ý và báo lỗi cho MINTZ JOB{' '}
+          <span onClick={() => {}} style={{ cursor: 'pointer', color: '#eb5151ff' }}>
+            tại đây
+          </span>
+        </Typography>
       </Box>
       <Box
         sx={{
@@ -110,13 +120,18 @@ export default function Registration() {
       >
         <Card variant='outlined'>
           <Box>
-            <Box mb={2} onClick={() => navigate(`${ROUTE_PATH.HOME}`)} display='flex' flexDirection='row' justifyContent='center' sx={{ cursor: 'pointer' }}>
-              <CommonImage
-                src={logo_mintz}
-                alt='logo_mintz'
-                sx={{ width: 80, height: 50 }}
-              />
-              <Typography margin='auto 0' fontWeight={600} variant='h4'>MINTZ JOB</Typography>
+            <Box
+              mb={2}
+              onClick={() => navigate(`${ROUTE_PATH.HOME}`)}
+              display='flex'
+              flexDirection='row'
+              justifyContent='center'
+              sx={{ cursor: 'pointer' }}
+            >
+              <CommonImage src={logo_mintz} alt='logo_mintz' sx={{ width: 80, height: 50 }} />
+              <Typography margin='auto 0' fontWeight={600} variant='h4'>
+                MINTZ JOB
+              </Typography>
             </Box>
             <Typography
               fontWeight={500}
@@ -131,6 +146,19 @@ export default function Registration() {
             </Alert>
           )}
           <Box component='form' onSubmit={handleSubmit(onSubmit)}>
+            <ControllerTextField<RegistrationFormInputs>
+              controllerProps={{
+                name: 'fullName',
+                defaultValue: '',
+                control: control,
+              }}
+              textFieldProps={{
+                label: 'Họ và tên',
+                error: !!errors.fullName,
+                helperText: errors.fullName?.message,
+              }}
+              prefixIcon={Person}
+            />
             <ControllerTextField<RegistrationFormInputs>
               controllerProps={{
                 name: 'email',
@@ -187,16 +215,14 @@ export default function Registration() {
                 to={`/${ROUTE_PATH.AUTH}/${ROUTE_PATH.LOGIN}`}
                 component={RouterLink}
                 color={COLORS.MAIN}
-                sx={{ fontStyle: 'italic'}}
+                sx={{ fontStyle: 'italic' }}
               >
                 Đăng nhập ngay
               </Typography>
             </Box>
-          </Box>                     
+          </Box>
         </Card>
       </Box>
-     
-
     </Page>
   );
 }
