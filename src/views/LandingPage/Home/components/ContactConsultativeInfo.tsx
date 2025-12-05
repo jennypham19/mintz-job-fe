@@ -2,8 +2,8 @@ import InputText from "@/components/InputText";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import dayjs, { Dayjs } from "dayjs";
-import { FormEvent, useEffect, useState } from "react";
-import mintz_logo from "@/assets/images/users/logo.png";
+import { useEffect, useState } from "react";
+import mintz_logo from "@/assets/images/users/mintzjob-white.png";
 import CommonImage from "@/components/Image/index";
 import useNotification from "@/hooks/useNotification";
 import { sendInformation } from "@/services/contact-service";
@@ -13,16 +13,13 @@ interface ProfileFormData {
   name: string;
   email: string;
   phone: string;
-  title: string;
-  message: string;
   captchaCode: string,
 }
 
 const ContactConsultativeInfo: React.FC = () => {
-    const [errors, setErrors] = useState<Partial<Record<'name' | 'email' | 'phone'| 'title' | 'message' | 'captchaCode' , string>>>({});
+    const [errors, setErrors] = useState<Partial<Record<'name' | 'email' | 'phone'| 'captchaCode' , string>>>({});
     const [formData, setFormData] = useState<ProfileFormData>({
-        name: '', email: '', phone: '', title: '',
-        message: '', captchaCode: ''
+        name: '', email: '', phone: '', captchaCode: ''
     });
     const notify = useNotification();
     const [captcha, setCaptcha] = useState<string>('');
@@ -42,7 +39,7 @@ const ContactConsultativeInfo: React.FC = () => {
                 [validName]: value, 
             }));
             
-            if (validName === 'email' || validName === 'phone' || validName === 'name' || validName === 'title' || validName === 'message' || validName === 'captchaCode') {
+            if (validName === 'email' || validName === 'phone' || validName === 'name' || validName === 'captchaCode') {
                 if(validName === 'phone' && typeof value === 'string'){
                     const phoneValid = value.replace(/\s|-/g, '');
                     if (!/^\d+$/.test(phoneValid)) {
@@ -97,10 +94,10 @@ const ContactConsultativeInfo: React.FC = () => {
                     }
                 }
 
-                if (errors[validName as 'name' | 'email' | 'phone'| 'title' | 'message' | 'captchaCode']) {
+                if (errors[validName as 'name' | 'email' | 'phone'| 'captchaCode']) {
                     setErrors(prev => {
                         const newErrors = { ...prev };
-                        delete newErrors[validName as 'name' | 'email' | 'phone'| 'title' | 'message' | 'captchaCode'];
+                        delete newErrors[validName as 'name' | 'email' | 'phone'| 'captchaCode'];
                         return newErrors;
                     });
                 }
@@ -111,12 +108,10 @@ const ContactConsultativeInfo: React.FC = () => {
     };
 
     const validateForm = (): boolean => {
-        const newErrors: Partial<Record<'name' | 'email' | 'phone'| 'title' | 'message' | 'captchaCode', string>> = {};
+        const newErrors: Partial<Record<'name' | 'email' | 'phone' | 'captchaCode', string>> = {};
         if(!formData.name.trim()) newErrors.name = 'Tên đầy đủ là bắt buộc';
         if(!formData.email) newErrors.email = 'Email là bắt buộc';
         if(!formData.phone) newErrors.phone = 'Số điện thoại là bắt buộc';
-        if(!formData.title) newErrors.title = 'Tiêu đề không được để trống';
-        if(!formData.message) newErrors.message = 'Nội dung không được để trống';
         if(!formData.captchaCode) newErrors.captchaCode = 'Mã Captcha không được để trống';
 
         setErrors(newErrors);
@@ -136,7 +131,7 @@ const ContactConsultativeInfo: React.FC = () => {
         try {
             const res = await sendInformation(data);
             notify({ message: res.message, severity: 'success'})
-            setFormData({ name: '', email: '', phone: '', title: '', message: '', captchaCode: ''})
+            setFormData({ name: '', email: '', phone: '', captchaCode: ''})
             setCaptcha(generateCaptcha());
         } catch (error: any) {
             const errorMessage = ` Gửi thông tin thất bại ${error.message}`;
@@ -156,8 +151,7 @@ const ContactConsultativeInfo: React.FC = () => {
                     <CommonImage
                         src={mintz_logo}
                         sx={{
-                            width: '216px',
-                            height: '191px'
+                            width: '100px',
                         }}
                     />
                     <Typography
@@ -172,13 +166,14 @@ const ContactConsultativeInfo: React.FC = () => {
                     >
                         THÔNG TIN TƯ VẤN
                     </Typography>
-                    <Typography sx={{ color: '#9E9A99' }}> Hoặc liên hệ hợp tác với chúng tôi </Typography>
-                    <Typography sx={{ color: '#9E9A99' }}> qua email bằng cách điền vào biểu </Typography>
-                    <Typography sx={{ color: '#9E9A99' }}> mẫu sau </Typography>
+                    <Stack alignItems='center' direction='column' sx={{ maxWidth: 500 }}>
+                        <Typography fontWeight={500} fontSize='15px' sx={{ color: '#dbd5d4ff', textAlign: 'center', whiteSpace: 'pre-line', wordBreak: 'break-word'}}> Nếu bạn là nhà tuyển dụng muốn đăng tải bài để tuyển dụng thì liên hệ hợp tác với chúng tôi qua email bằng cách điền vào biểu mẫu sau.</Typography>
+                        <Typography fontWeight={500} fontSize='15px' sx={{ color: '#dbd5d4ff', textAlign: 'center', whiteSpace: 'pre-line' }}>Sau đó chúng tôi sẽ gửi tài khoản qua email cho bạn.</Typography>
+                    </Stack>
                 </Box>
             </Grid>
-            <Grid size={{ xs: 12, md: 7}}>
-                <Box id="create-task-form">
+            <Grid size={{ xs: 12, md: 7 }} display='flex'>
+                <Box id="create-task-form" margin='auto 0px'>
                     <Grid container spacing={2}>
                         <Grid size={{ xs: 12}}>
                             <Stack direction={{ xs: 'column', md: 'row'}} spacing={{ xs: 0, md: 2}} sx={{ width: { xs: '100%', md: '80%'} }}>
@@ -216,10 +211,6 @@ const ContactConsultativeInfo: React.FC = () => {
                                         autoComplete='off'
                                     />
                                 </Box>
-                            </Stack>
-                        </Grid>
-                        <Grid size={{ xs: 12}}>
-                            <Stack direction={{ xs: 'column', md: 'row'}} spacing={{ xs: 0, md: 2}} sx={{ width: { xs: '100%', md: '80%'} }}>
                                 <Box flexGrow={1}>
                                     <Typography variant="body2" fontWeight={600} gutterBottom sx={{ color: 'white'}}>Điện thoại</Typography>
                                     <InputText
@@ -237,44 +228,6 @@ const ContactConsultativeInfo: React.FC = () => {
                                         autoComplete='off'
                                     />
                                 </Box>
-                                <Box flexGrow={1}>
-                                    <Typography variant="body2" fontWeight={600} gutterBottom sx={{ color: 'white'}}>Tiêu đề</Typography>
-                                    <InputText
-                                        label=""
-                                        name="title"
-                                        value={formData.title}
-                                        onChange={handleCustomInputChange}
-                                        type="text"
-                                        sx={{ mt: 0}}
-                                        margin="dense"
-                                        placeholder="Nhập thông tin"
-                                        from="from-contact"
-                                        error={!!errors.title}
-                                        helperText={errors.title}
-                                        autoComplete='off'
-                                    />
-                                </Box>
-                            </Stack>
-                        </Grid>
-                        <Grid size={{ xs: 12}}>
-                            <Stack direction='column' flexGrow={1} sx={{ width: { xs: '100%', md: '80%'} }}>
-                                <Typography variant="body2" fontWeight={600} gutterBottom sx={{ color: 'white'}}>Nội dung</Typography>
-                                <InputText
-                                    rows={5}
-                                    multiline
-                                    label=""
-                                    name="message"
-                                    value={formData.message}
-                                    onChange={handleCustomInputChange}
-                                    type="text"
-                                    sx={{ mt: 0}}
-                                    margin="dense"
-                                    placeholder="Nhập thông tin"
-                                    from="from-contact"
-                                    error={!!errors.message}
-                                    helperText={errors.message}
-                                    autoComplete='off'
-                                />
                             </Stack>
                         </Grid>
                         <Grid size={{ xs: 12}}>

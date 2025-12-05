@@ -101,56 +101,6 @@ const MissionDevelopment: React.FC = () => {
                 })}
             </Grid>
         </Box>
-        <Box px={{ xs: 0, md: 5, lg: 10}}>
-            <Typography width={{ xs: '100%', md: '35%', lg: '15%'}} sx={{ borderTop: '2px solid white', py: 1, mt: 4}} variant="h5" fontWeight={600}>Dịch vụ của chúng tôi</Typography>
-            {CONTENT_SERVICE?.slice(0,5).map((content, index) => {
-                return(
-                    <Grid key={index} sx={{ mt: 3}} container spacing={4} direction={ content.isReverse === true ? 'row-reverse' : 'row'}>
-                        <Grid size={{ xs: 12, md: 6}}>
-                            <CommonImage
-                                src={content.image_url}
-                                sx={{
-                                    width: { xs: '100%', md: 750 },
-                                    height: { xs: 200, md: 300 },
-                                    borderRadius: 2
-                                }}
-                            />
-                        </Grid>
-                        <Grid size={{ xs: 12, md: 6}}>
-                            <Box sx={{ height: { xs: 200, md: 300, position: 'relative' }}}>
-                                <Box 
-                                    sx={{ 
-                                        position: 'absolute', 
-                                        top: "50%", // 👈 đẩy xuống giữa
-                                        left: 0,
-                                        right: 0,
-                                        transform: "translateY(-50%)", // 👈 kéo ngược lên 1/2 chiều cao
-                                    }} 
-                                >
-                                    <Box display='flex' flexDirection='row' gap={1}>
-                                        <Typography variant="h4" sx={{ fontWeight: 700}}>
-                                            {content.order}
-                                        </Typography>
-                                        <Typography variant="h6" sx={{ fontWeight: 400, whiteSpace: 'normal', wordBreak: 'break-word', mt: { xs: 0, md: 0.5} }}>
-                                            {content.title}
-                                        </Typography>
-                                    </Box>
-                                    <Stack direction='column' display='flex' justifyContent={ content.isReverse === true ? 'start' : 'end'}>
-                                        {content.content.split('\n').map((line, index) => {
-                                            const newLine = line.replace('/^\n\s*[-*~>]/', '•');
-                                            return (
-                                                // <Typography key={index} sx={{ whiteSpace: 'normal', wordBreak: 'break-word',fontSize: {xs: '13px', md: '15px'} }}>{`• ${newLine.trim()}`}</Typography>   
-                                                <Typography key={index} sx={{ whiteSpace: 'normal', wordBreak: 'break-word',fontSize: {xs: '13px', md: '15px'} }}>{`• ${line.trim()}`}</Typography>   
-                                            )
-                                        })}
-                                    </Stack>
-                                </Box>
-                            </Box>
-                        </Grid>
-                    </Grid>
-                )
-            })}
-        </Box>
         </>
     )
 }

@@ -27,9 +27,9 @@ const VisionIntroduction: React.FC<VisionIntroductionProps> = (props) => {
                     width: { xs: '100%', md: '35%'}
                 }}
             >
-                <Typography sx={{  borderTop: '1px solid white', pt: 2}} textAlign={{ xs: 'center', md: 'start'}} variant="h4" fontWeight={600}>Tầm nhìn của MINTZ FUNI</Typography>
+                <Typography sx={{  borderTop: '1px solid white', pt: 2}} textAlign={{ xs: 'center', md: 'start'}} variant="h4" fontWeight={600}>Tầm nhìn của MINTZ JOB</Typography>
                 <Typography textAlign={{ xs: 'center', md: 'start'}} sx={{ whiteSpace: 'normal', wordBreak: 'break-word', fontSize: {xs: '12px', md: '16px'}}}>
-                    {`Mintz Funi định vị mình là đối tác chiến lược cho các chủ đầu tư khách sạn và resort tại Việt Nam. Chúng tôi hướng tới mục tiêu trở thành đơn vị thiết kế nội thất khách sạn và resort hàng đầu, tiên phong trong việc mang đến:`}
+                    {`Mintz Job định vị mình là đối tác chiến lược cho các nhà tuyển dụng tại Việt Nam và Nước ngoài. Chúng tôi hướng tới mục tiêu trở thành đơn vị thiết kế nội thất khách sạn và resort hàng đầu, tiên phong trong việc mang đến:`}
                 </Typography>
             </Box>
             <Stack px={{ xs: 0, md: 5, lg: 15}} direction='column' sx={{ width: { xs: '100%', md: '65%'}}}>

@@ -77,8 +77,7 @@ const Footer = () => {
                       mt: 2
                     }}
                   >
-                  <Typography variant='h4' fontWeight={800}>Mintz Funi</Typography>
-                  <Typography variant='h6' fontWeight={500}>FUNIRTURE</Typography>
+                  <Typography variant='h4' fontWeight={800}>Mintz Job</Typography>
                   </Box>
                 </Box>
 
@@ -146,7 +145,7 @@ const Footer = () => {
                 sx={{ mx: 0.5}}
               />
             </Box>
-            <Typography>Copyright © 2022. Mintz Funi Group, All right reserved. </Typography>
+            <Typography>Copyright © 2022. Mintz Job Group, All right reserved. </Typography>
         </Box>
     </FooterRoot>
   );

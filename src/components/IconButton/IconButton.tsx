@@ -56,12 +56,12 @@ const IconButton: React.FC<IconButtonProps> = ({
                         padding: 0, // ✅ xoá padding mặc định để icon hiển thị đúng kích thước
                         color,
                         '&:hover': {
-                            color: 'white',
+                            color: 'default',
                             backgroundColor: backgroundColor, // hoặc 'transparent' nếu không muốn nền
                         },
                         '&.Mui-disabled':{
                             backgroundColor:"gray",
-                            color: 'white',
+                            color: 'default',
                             opacity: 0.5, // hoặc giữ nguyên 1 nếu không muốn bị mờ
                         },
                         ...props.sx
