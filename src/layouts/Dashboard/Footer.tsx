@@ -1,13 +1,13 @@
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import { __VERSION__ } from '@/config';
-import { Box, Button, Divider, Paper, Stack } from '@mui/material';
+import { Box, Button, Divider, Stack } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import IconButton from '@/components/IconButton/IconButton';
 import { Facebook, Instagram, LinkedIn, Twitter } from '@mui/icons-material';
 import InputText from '@/components/InputText';
 import CommonImage from '@/components/Image/index';
-import mintz_logo from "@/assets/images/users/mintzdg-logo.png";
+import mintz_logo from "@/assets/images/users/mintzjob-logo.png";
 import { useState } from 'react';
 import { Dayjs } from 'dayjs';
 
@@ -62,14 +62,14 @@ const Footer = () => {
                     display:'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    
+                    gap: 1
                   }}
                 >
                   <CommonImage
                     src={mintz_logo}
                     sx={{
                       width: 150,
-                      height: 150,
+                      height: 110,
                     }}
                   />
                   <Box

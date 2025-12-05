@@ -11,7 +11,8 @@ import CollapsedSideBar from '../LandingPage/CollapsedSideBar';
 import CustomizedBadges from '@/components/Badge';
 import { COLORS } from '@/constants/colors';
 import IconButton from '@/components/IconButton/IconButton';
-
+import { ROUTE_PATH } from '@/constants/routes';
+import DialogConfirm from './components/DialogConfirm';
 
 interface Props {
   collapsed: boolean;
@@ -24,7 +25,8 @@ const Header = (props: Props) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [collapsed, setCollapsed] = useState<boolean>(false);
-  
+  const [openDialogConfirm, setOpenDialogConfirm] = useState(false);
+
   const handleToggleCollapsed = () => {
     setCollapsed(!collapsed);
   };
@@ -53,6 +55,11 @@ const Header = (props: Props) => {
     },
   });
 
+  const handleClick = () => {
+    setOpenDialogConfirm(true)
+  };
+
+
   if(mdUp){
     return(
       <AppBar
@@ -76,9 +83,10 @@ const Header = (props: Props) => {
               }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 10, }}>
                 <CommonImage
+                  route={ROUTE_PATH.HOME}
                   src={mintz_logo}
                   alt="mintz logo"
-                  sx={{ width: 50 }}
+                  sx={{ width: 50, cursor: 'pointer' }}
                 />
                 <Typography sx={styleMenu('/home')} onClick={() =>  handleMenuClick('home','/home')}>Trang chủ</Typography>
                 <Typography sx={styleMenu('/about-us')} onClick={() =>  handleMenuClick('about-us','/about-us')}>Mintz Job</Typography>
@@ -87,7 +95,7 @@ const Header = (props: Props) => {
               </Box>
               <Box gap={2.5} display='flex' flexDirection='row'>
                 <Typography 
-                  component='a' href='#'
+                  component='a' href='/auth/login'
                   fontSize='15px' mt={0.5}
                   sx={{ 
                     textDecoration: 'none', color: '#000', 
@@ -97,7 +105,7 @@ const Header = (props: Props) => {
                   Đăng nhập
                 </Typography>
                 <Typography 
-                  component='a' href='#' fontSize='15px' mt={0.5}
+                  component='a' href='/auth/register' fontSize='15px' mt={0.5}
                   sx={{ 
                     textDecoration: 'none', color: '#000', 
                     '&:hover': { color: COLORS.MAIN, fontWeight: 500 }
@@ -110,6 +118,7 @@ const Header = (props: Props) => {
                   colorHover={COLORS.MAIN}
                 />
                 <Button
+                  onClick={handleClick}
                   sx={{ 
                     bgcolor: COLORS.MAIN,
                     '&:hover': {
@@ -122,7 +131,14 @@ const Header = (props: Props) => {
                 </Button>              
               </Box>              
             </Toolbar>
-
+            {openDialogConfirm && (
+              <DialogConfirm
+                open={openDialogConfirm}
+                onClose={() => {
+                  setOpenDialogConfirm(false)
+                }}
+              />
+            )}
           </AppBar>
     )
   }
@@ -159,6 +175,7 @@ const Header = (props: Props) => {
         </MuiIconButton>
         
         <CommonImage
+          route={ROUTE_PATH.HOME}
           src={mintz_logo}
           alt="mintz logo"
           sx={{ width: 50, margin: 'auto 0px' }}
@@ -175,13 +192,16 @@ const Header = (props: Props) => {
             <IconButton
               tooltip='Đăng nhập'
               icon={<Login sx={{ width: 25, height: 25 }}/>}
+              handleFunt={() => navigate('/auth/login')}
             />
             <IconButton
               tooltip='Đăng ký'
               icon={<AppRegistration sx={{ width: 25, height: 25 }}/>}
+              handleFunt={() => navigate('/auth/register')}
             />
             <CustomizedBadges tooltip='Thông báo' icon={<Notifications sx={{ width: 25, height: 25 }}/>} count={4}/>
             <IconButton
+              handleFunt={handleClick}
               tooltip={`Đăng bài (Miễn phí)`.toUpperCase()}
               icon={<PostAdd sx={{ width: 25, height: 25 }}/>}
             />             
@@ -191,6 +211,14 @@ const Header = (props: Props) => {
         collapsed={collapsed}
         onToggleCollapsed={handleToggleCollapsed}
       />
+      {openDialogConfirm && (
+        <DialogConfirm
+          open={openDialogConfirm}
+          onClose={() => {
+            setOpenDialogConfirm(false)
+          }}
+        />
+      )}
     </AppBar>
   );
 };

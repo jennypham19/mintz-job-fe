@@ -1,47 +1,10 @@
-import { Box, Stack, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { Box, Typography } from "@mui/material";
+import React from "react";
 import Grid from '@mui/material/Grid2'
-import { CONTENT_MISSION, CONTENT_SERVICE } from "@/constants/contentAbout";
+import { CONTENT_MISSION } from "@/constants/contentAbout";
 import CommonImage from "@/components/Image/index";
-import { IServices } from "@/types/settings";
-import { getServices } from "@/services/settings-service";
-import image_slide_12 from '@/assets/images/users/12.png';
-import image_slide_10 from '@/assets/images/users/10.png';
-
-
-interface ServicesData extends IServices{
-    order: number | string,
-    isReverse: boolean
-}
 
 const MissionDevelopment: React.FC = () => {
-    const page = 0;
-    const rowsPerPage = 10
-    const [services, setServices] = useState<IServices[]>([]);
-
-    useEffect(() => {
-        const fetchServices = async() => {
-            const res = await getServices({ page: page, size: rowsPerPage});
-            const data = res.data?.services as any as IServices[];
-            const newData: ServicesData[] = data?.map(
-                (service, index) => {
-                    const numericId = Number(service.id);
-                    return {
-                        id: service.id,
-                        content: service.content,
-                        title: service.title,
-                        image_url: !isNaN(numericId) && numericId % 2 !== 0 ? service.image_url || image_slide_12 : service.image_url || image_slide_10,
-                        createdAt: service.createdAt,
-                        updatedAt: service.updatedAt,
-                        order: String(index + 1).padStart(2, '0'),
-                        isReverse: !isNaN(numericId) && numericId % 2 !== 0 //true nếu là số lẻ
-                    }
-                }
-            )
-            setServices(newData);
-        }
-        fetchServices()
-    }, [page, rowsPerPage])
     return (
         <>
         <Box
@@ -55,7 +18,11 @@ const MissionDevelopment: React.FC = () => {
         >
             <Typography variant="h5" fontWeight={600}>Sứ mệnh phát triển</Typography>
             <Typography textAlign='center' sx={{ whiteSpace: 'normal', wordBreak: 'break-word', mt: 3, fontSize: {xs: '12px', md: '16px'}}}>
-                Mintz Funi luôn tự hào là đơn vị uy tín hàng đầu trong lĩnh vực thiết kế nội thất khách sạn và resort, với thế mạnh lên ý tưởng sáng tạo, tư vấn tận tâm và đồng hành cùng khách hàng để mang đến những giải pháp thiết kế tối ưu, phù hợp từng mục tiêu kinh doanh.Khởi đầu xây dựng là những con người có đam mê và tâm huyết, sau nhiều năm hoạt động thì chúng tôi dần đã trờ thành đơn vị nhà thầu có độ tin cậy tuyệt đối với những khách hàng có nhu cầu về thiết kế nội thất hiện nay.
+                Mintz Job mang trong mình sứ mệnh nâng cao chất lượng tuyển dụng tại Việt Nam,
+                xây dựng cầu nối vững chắc giữa ứng viên tiềm năng và nhà tuyển dụng uy tín.
+                Chúng tôi hướng đến việc tạo ra một hệ sinh thái tuyển dụng hiện đại, minh bạch,
+                nhanh chóng và hiệu quả – nơi mọi cơ hội nghề nghiệp đều được tiếp cận dễ dàng,
+                đúng người và đúng nhu cầu doanh nghiệp.
             </Typography>
             <Grid container spacing={3}>
                 {CONTENT_MISSION.map((content, index) => {

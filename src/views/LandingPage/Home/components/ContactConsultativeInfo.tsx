@@ -164,7 +164,7 @@ const ContactConsultativeInfo: React.FC = () => {
                             my: 2
                         }}
                     >
-                        THÔNG TIN TƯ VẤN
+                        THÔNG TIN NHÀ TUYỂN DỤNG
                     </Typography>
                     <Stack alignItems='center' direction='column' sx={{ maxWidth: 500 }}>
                         <Typography fontWeight={500} fontSize='15px' sx={{ color: '#dbd5d4ff', textAlign: 'center', whiteSpace: 'pre-line', wordBreak: 'break-word'}}> Nếu bạn là nhà tuyển dụng muốn đăng tải bài để tuyển dụng thì liên hệ hợp tác với chúng tôi qua email bằng cách điền vào biểu mẫu sau.</Typography>

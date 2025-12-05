@@ -46,42 +46,33 @@ export const CONTENT_NEWS = [
 ]
 
 export const CONTENT_VISION = [
-    {
-        id: 1,
-        stt: '01',
-        content: 'Giải pháp thiết kế tối ưu không gian: quy trình lựa chọn bố trí nội thất – kiến trúc một cách khoa học, hiệu quả, cân bằng giữa công năng, thẩm mỹ, chi phí, ánh sáng và lưu thông, đảm bảo tiện nghi và thoáng đãng trong điều kiện thực tế.'
-    },
-    {
-        id: 2,
-        stt: '02',
-        content: 'Ngôn ngữ thiết kế tinh tế – phù hợp từng phân khúc lưu trú: phong cách thiết kế (màu sắc, chất liệu, ánh sáng, chi tiết) được chăm chút kỹ lưỡng, điều chỉnh linh hoạt để phù hợp với tiêu chuẩn và trải nghiệm từ sang trọng đến bình dân '
-    },
-    {
-        id: 3,
-        stt: '03',
-        content: 'Định hướng thẩm mỹ đi đôi với hiệu quả kinh doanh: chiến lược thiết kế cân bằng giữa yếu tố thẩm mỹ (đẹp, sang – hỗ trợ cảm xúc người dùng) và kinh doanh hiệu quả (tiết kiệm chi phí, tăng lòng tin khách hàng, thúc đẩy doanh thu) .'
-    }
-]
+  { id: 1, stt: "01", content: "Trải nghiệm tuyển dụng: Tối ưu quy trình, giảm thời gian tuyển dụng cho doanh nghiệp" },
+  { id: 2, stt: "02", content: "Ứng viên chất lượng: Định hướng và sàng lọc ứng viên phù hợp với từng vị trí" },
+  { id: 3, stt: "03", content: "Công nghệ thông minh: Ứng dụng AI vào gợi ý việc làm & phân tích hồ sơ" },
+  { id: 4, stt: "04", content: "Kết nối toàn cầu: Mở rộng cơ hội việc làm tại thị trường quốc tế" },
+  { id: 5, stt: "05", content: "Hỗ trợ doanh nghiệp: Cung cấp giải pháp tuyển dụng linh hoạt, hiệu quả và tiết kiệm" },
+];
+
 
 export const CONTENT_MISSION = [
     {
         id: 1,
-        label: 'Thiết kế sáng tạo phù hợp với định hướng kinh doanh',
+        label: 'Kết nối ứng viên chất lượng với doanh nghiệp phù hợp',
         image: draw
     },
     {
         id: 2,
-        label: 'Đúng theo phong cách và yêu cầu riêng biệt của bạn.',
+        label: 'Cung cấp giải pháp tuyển dụng nhanh – chính xác – tiết kiệm chi phí',
         image: light
     },
     {
         id: 3,
-        label: 'Đội ngũ kiến trúc sư chuyên gia hỗ trợ khách hàng',
+        label: 'Ứng dụng công nghệ AI để tối ưu quy trình sàng lọc & gợi ý việc làm',
         image: team
     },
     {
         id: 4,
-        label: 'Uy tín, chuyên nghiệp am hiểu thị trường Việt Nam.',
+        label: 'Xây dựng nền tảng giúp ứng viên phát triển nghề nghiệp bền vững',
         image: cooperate
     },
 ]

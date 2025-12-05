@@ -3,6 +3,8 @@ import { Avatar, Box, Drawer, IconButton, List, ListItem, ListItemText, Stack, T
 import { createContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import mintz_logo from "@/assets/images/users/mintzjob-logo.png";
+import CommonImage from "@/components/Image/index";
+import { ROUTE_PATH } from "@/constants/routes";
 
 
 export const CollapseContext = createContext<boolean | null>(null);
@@ -61,7 +63,12 @@ const CollapsedSideBar = (props: CollapsedSideBarProps) => {
                         py: 1.5,
                     }} 
                 >
-                    <Avatar src={mintz_logo} alt="Logo" sx={{ height: 150, width: 150, bgcolor: 'grey.300', borderRadius: '50%' }} />
+                    <CommonImage           
+                        route={ROUTE_PATH.HOME}
+                        src={mintz_logo}
+                        alt="mintz logo" 
+                        sx={{ width: 150, height: 150, borderRadius: '50%', border: '1px solid #cac5c5ff'}}
+                    />
 
                 {/* Menu Items */}
                 <List sx={{ px: 2 }}>

@@ -5,15 +5,17 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 
-import { AccountCircle, Email, Lock, Visibility, VisibilityOff } from '@mui/icons-material';
+import { AccountCircle, Email, Facebook, Google, Lock, Visibility, VisibilityOff } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
 import {
   Alert,
   Box,
+  Button,
   Checkbox,
   FormControlLabel,
   IconButton,
   InputAdornment,
+  styled,
   Typography,
 } from '@mui/material';
 import ControllerTextField from '@/components/ControllerField/ControllerTextField';
@@ -27,8 +29,12 @@ import { setIsAuth } from '@/slices/auth';
 import { setProfile } from '@/slices/user';
 import { useAppDispatch } from '@/store';
 import { setAccessToken } from '@/utils/AuthHelper';
-import Logger from '@/utils/Logger';
 import { signIn } from '@/services/auth-service';
+import { COLORS } from '@/constants/colors';
+import MuiCard from '@mui/material/Card';
+import bg_logo from "@/assets/images/users/login-page.png"
+import CommonImage from '@/components/Image/index';
+import logo_mintz from "@/assets/images/users/mintzdg-logo-1.png"
 
 
 export const ID_USER = 'user_id'
@@ -36,6 +42,24 @@ interface LoginFormInputs {
   username: string;
   password: string;
 }
+
+const Card = styled(MuiCard)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  width: '100%',
+  padding: theme.spacing(4),
+  gap: theme.spacing(2),
+  margin: 'auto',
+  [theme.breakpoints.up('sm')]: {
+    maxWidth: '650px',
+  },
+  boxShadow:
+    'hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
+  ...theme.applyStyles('dark', {
+    boxShadow:
+      'hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px',
+  }),
+}));
 
 export default function Login() {
   const {
@@ -63,7 +87,7 @@ export default function Login() {
     setLoading.on();
     try {
       const respAuth = await signIn({
-        username: values.username,
+        email: values.username,
         password: values.password,
       });
       
@@ -104,113 +128,156 @@ export default function Login() {
   };
 
   return (
-    <Page title='Mintz'>
-      <Box>
-        <Typography
-          component='h1'
-          variant='h4'
-          fontWeight={500}
-          sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)', textAlign: 'center' }}
-        >
-          Đăng nhập
-        </Typography>
+    <Page title='Đăng nhập - Mintz Job'>
+      <Box height='40px' bgcolor={COLORS.MAIN} display='flex' justifyContent='center'>
+        <Typography fontSize='15px' margin='auto 0' color='#fff'>Góp ý và báo lỗi cho MINTZ JOB <span onClick={() => {}} style={{ cursor: 'pointer', color: '#eb5151ff'}}>tại đây</span></Typography>
       </Box>
-      {_error && (
-        <Alert variant='filled' severity='error'>
-          {_error}
-        </Alert>
-      )}
       <Box
-        component='form'
-        onSubmit={handleSubmit(onSubmit)}
         sx={{
           display: 'flex',
-          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
           width: '100%',
-          gap: 2,
+          minHeight: 'calc(100vh - 40px)', // trừ thanh thông báo trên cùng
+          backgroundImage: `url(${bg_logo})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
         }}
       >
-        <ControllerTextField<LoginFormInputs>
-          controllerProps={{
-            name: 'username',
-            defaultValue: '',
-            control: control,
-          }}
-          textFieldProps={{
-            label: 'Tài khoản',
-            error: !!errors.username,
-            helperText: errors.username?.message,
-            sx: { ariaLabel: 'username' },
-          }}
-          prefixIcon={AccountCircle}
-        />
-        <ControllerTextField<LoginFormInputs>
-          controllerProps={{
-            name: 'password',
-            defaultValue: '',
-            control: control,
-          }}
-          textFieldProps={{
-            label: 'Mật khẩu',
-            type: showPassword ? 'text' : 'password',
-            error: !!errors.password,
-            helperText: errors.password?.message,
-            slotProps: {
-              input: {
-                endAdornment: (
-                  <InputAdornment position='end'>
-                    <IconButton
-                      aria-label='toggle password visibility'
-                      onClick={() => setShowPassword.toggle()}
-                      edge='end'
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              },
-            },
-          }}
-          prefixIcon={Lock}
-        />
-        <div>
-          {/* <Box>
+        <Card variant='outlined'>
+          <Box>
+            <Box mb={2} onClick={() => navigate(`${ROUTE_PATH.HOME}`)} display='flex' flexDirection='row' justifyContent='center' sx={{ cursor: 'pointer' }}>
+              <CommonImage
+                src={logo_mintz}
+                alt='logo_mintz'
+                sx={{ width: 80, height: 50 }}
+              />
+              <Typography margin='auto 0' fontWeight={600} variant='h4'>MINTZ JOB</Typography>
+            </Box>
             <Typography
-              color='primary'
-              component={RouterLink}
-              to={`/${ROUTE_PATH.AUTH}/${ROUTE_PATH.FORGOT_PASSWORD}`}
-              sx={{ textAlign: 'end', display: 'block' }}
+              fontWeight={500}
+              sx={{ width: '100%', fontSize: '24px', textAlign: 'center' }}
             >
-              Forgot password?
+              ĐĂNG NHẬP
             </Typography>
-          </Box> */}
-          <FormControlLabel
-            label={'Remember me'}
-            control={
-              <Checkbox checked={remember} onChange={(e) => setRemember(e.target.checked)} />
-            }
-          />
-        </div>
-        <LoadingButton 
-          loading={_loading} type='submit' variant='outlined' fullWidth
-          sx={{
-            color:"#1C1A1B",
-            borderColor: "#1C1A1B",
-            fontWeight:800
-          }}
-        >
-          Đăng nhập
-        </LoadingButton>
-        {/* <Box display='flex' justifyContent='center' alignItems='center' flexWrap='wrap' gap={2}>
-          <Typography>Don't have an account</Typography>
-          <Typography
-            to={`/${ROUTE_PATH.AUTH}/${ROUTE_PATH.REGISTRATION}`}
-            component={RouterLink}
-            color='primary'
+          </Box>
+          {_error && (
+            <Alert variant='filled' severity='error'>
+              {_error}
+            </Alert>
+          )}
+          <Box
+            component='form'
+            onSubmit={handleSubmit(onSubmit)}
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              width: '100%',
+              gap: 2,
+            }}
           >
-            Create an account
-          </Typography>
-        </Box> */}
+            <ControllerTextField<LoginFormInputs>
+              controllerProps={{
+                name: 'username',
+                defaultValue: '',
+                control: control,
+              }}
+              textFieldProps={{
+                label: 'Email',
+                error: !!errors.username,
+                helperText: errors.username?.message,
+                sx: { ariaLabel: 'username' },
+              }}
+              prefixIcon={AccountCircle}
+            />
+            <ControllerTextField<LoginFormInputs>
+              controllerProps={{
+                name: 'password',
+                defaultValue: '',
+                control: control,
+              }}
+              textFieldProps={{
+                label: 'Mật khẩu',
+                type: showPassword ? 'text' : 'password',
+                error: !!errors.password,
+                helperText: errors.password?.message,
+                slotProps: {
+                  input: {
+                    endAdornment: (
+                      <InputAdornment position='end'>
+                        <IconButton
+                          aria-label='toggle password visibility'
+                          onClick={() => setShowPassword.toggle()}
+                          edge='end'
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  },
+                },
+              }}
+              prefixIcon={Lock}
+            />
+            <div>
+              <Box>
+                <Typography
+                  color={COLORS.MAIN}
+                  component={RouterLink}
+                  to={`/${ROUTE_PATH.AUTH}/${ROUTE_PATH.FORGOT_PASSWORD}`}
+                  sx={{ textAlign: 'end', display: 'block' }}
+                >
+                  Quên mật khẩu
+                </Typography>
+              </Box>
+            </div>
+            <LoadingButton 
+              loading={_loading} type='submit' variant='contained' fullWidth
+              sx={{
+                color:"#fff",
+                bgcolor: COLORS.MAIN,
+                fontWeight:800
+              }}
+            >
+              Đăng nhập
+            </LoadingButton>
+            <Button 
+              fullWidth variant='contained'
+              startIcon={<Facebook/>}
+              sx={{
+                color:"#fff",
+                bgcolor: '#3a5a99',
+                fontWeight: 800,
+                fontSize: '15px',
+              }}
+            >
+              Tiếp tục với Facebook
+            </Button>
+            <Button 
+              fullWidth variant='contained'
+              startIcon={<Google/>}
+              sx={{
+                color:"#fff",
+                bgcolor: '#f4402d',
+                fontWeight: 800,
+                fontSize: '15px'
+              }}
+            >
+              Đăng nhập với Google
+            </Button>
+            <Box display='flex' justifyContent='center' alignItems='center' flexWrap='wrap' gap={2}>
+              <Typography>Chưa có tài khoản?</Typography>
+              <Typography
+                to={`/${ROUTE_PATH.AUTH}/${ROUTE_PATH.REGISTRATION}`}
+                component={RouterLink}
+                color={COLORS.MAIN}
+                sx={{ fontStyle: 'italic'}}
+              >
+                Đăng ký
+              </Typography>
+            </Box>
+          </Box>
+        </Card>
       </Box>
     </Page>
   );
