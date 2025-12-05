@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import ContactConsultativeInfo from './components/ContactConsultativeInfo';
 import ImageCarousel, { SrcSetWidth } from './components/ImageCarousel';
 import Page from '@/components/Page';
+import { COLORS } from '@/constants/colors';
+import ListPosts from './components/ListPosts';
+import { DATA_POST } from '@/constants/data';
 
 const Home = () => {
   const fixedImages: SrcSetWidth[] = [
@@ -51,7 +54,7 @@ const Home = () => {
               Chào mừng bạn đến với
             </Typography>
             <Typography sx={{ fontSize: { xs: '2rem', md: '4rem'}}} fontWeight={600} mb={3}>
-              MINTZ FUNI
+              MINTZ JOB
             </Typography>
             <Button
               variant="outlined"
@@ -78,12 +81,15 @@ const Home = () => {
 
         </Box>
       </Box>
+      <Box bgcolor='#fff' p={2}>
+        <Typography fontWeight={600} fontSize='15px'>CÓ THỂ BẠN SẼ THÍCH</Typography>
+        <ListPosts data={DATA_POST}/>
+      </Box>
       <Box
-        sx={{ backgroundColor: '#031512', p: 5}}
+        sx={{ backgroundColor: COLORS.MAIN, p: 5}}
       >
         <ContactConsultativeInfo/>
       </Box>
-      <ImageCarousel fixedImages={fixedImages}/>
     </Page>
   );
 };

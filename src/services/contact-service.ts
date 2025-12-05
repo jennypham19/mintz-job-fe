@@ -9,8 +9,6 @@ interface ProfileDataRequest {
   name: string;
   email: string;
   phone: string;
-  title: string;
-  message: string;
   createdAt?:string;
   updatedAt?: string;
   isRead: number
