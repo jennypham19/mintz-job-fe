@@ -29,7 +29,7 @@ const VisionIntroduction: React.FC<VisionIntroductionProps> = (props) => {
             >
                 <Typography sx={{  borderTop: '1px solid white', pt: 2}} textAlign={{ xs: 'center', md: 'start'}} variant="h4" fontWeight={600}>Tầm nhìn của MINTZ JOB</Typography>
                 <Typography textAlign={{ xs: 'center', md: 'start'}} sx={{ whiteSpace: 'normal', wordBreak: 'break-word', fontSize: {xs: '12px', md: '16px'}}}>
-                    {`Mintz Job định vị mình là đối tác chiến lược cho các nhà tuyển dụng tại Việt Nam và Nước ngoài. Chúng tôi hướng tới mục tiêu trở thành đơn vị thiết kế nội thất khách sạn và resort hàng đầu, tiên phong trong việc mang đến:`}
+                    {`Mintz Job định vị mình là nền tảng tuyển dụng uy tín, kết nối nhanh chóng giữa ứng viên chất lượng và nhà tuyển dụng trong nước & quốc tế. Chúng tôi hướng tới mục tiêu trở thành hệ sinh thái tuyển dụng toàn diện, tiên phong trong việc mang đến`}
                 </Typography>
             </Box>
             <Stack px={{ xs: 0, md: 5, lg: 15}} direction='column' sx={{ width: { xs: '100%', md: '65%'}}}>

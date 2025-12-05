@@ -13,7 +13,9 @@ import Loadable from '@/components/Loadable';
 import managerRoutes from './Manager';
 
 const Login = Loadable(lazy(() => import('@/views/Auth/Login')));
+const Registration = Loadable(lazy(() => import('@/views/Auth/Registration')));
 const Home = Loadable(lazy(() => import('@/views/LandingPage/Home/index')));
+const PostLandingPage = Loadable(lazy(() => import('@/views/LandingPage/Post/index')));
 const AboutUs = Loadable(lazy(() => import('@/views/LandingPage/AboutUs/index')));
 const News = Loadable(lazy(() => import('@/views/LandingPage/News/index')));
 const NotFound = Loadable(lazy(() => import('@/views/Errors/NotFound')));
@@ -42,6 +44,7 @@ const routes: RouteObject[] = [
         children: [
           { index: true, element: <Navigate to="login" replace /> },
           { path: 'login', element: <Login /> },
+          { path: 'register', element: <Registration/>},
           { path: 'change-password', element: <ChangePassword /> },
         ],
       },
@@ -56,6 +59,7 @@ const routes: RouteObject[] = [
       { path: 'home', element: <Home /> },
       { path: 'about-us', element: <AboutUs /> },
       { path: 'news', element: <News /> },
+      { path: 'new-post', element: <PostLandingPage/>},
       { index: true, element: <Navigate to="/home" replace /> },
     ],
   },

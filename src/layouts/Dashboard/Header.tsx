@@ -1,5 +1,4 @@
 import { MINI_SIDEBAR_WIDTH, SIDEBAR_WIDTH } from '@/constants/layouts';
-import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 import { Box, Typography, useMediaQuery } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import IconButton from '@mui/material/IconButton';
