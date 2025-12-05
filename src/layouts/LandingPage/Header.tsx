@@ -1,18 +1,26 @@
-import { Box, Button, Typography, useMediaQuery, IconButton as MuiIconButton } from '@mui/material';
+import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+
+
+
+import { AppRegistration, DensityMedium, Login, Notifications, PostAdd } from '@mui/icons-material';
+import { Box, Button, IconButton as MuiIconButton, Typography, useMediaQuery } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import { useTheme } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
-import mintz_logo from "@/assets/images/users/mintzjob-logo.png";
-import CommonImage from '@/components/Image/index';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { AppRegistration, DensityMedium, Login, Notifications, PostAdd } from '@mui/icons-material';
 import CollapsedSideBar from '../LandingPage/CollapsedSideBar';
-import CustomizedBadges from '@/components/Badge';
-import { COLORS } from '@/constants/colors';
-import IconButton from '@/components/IconButton/IconButton';
-import { ROUTE_PATH } from '@/constants/routes';
 import DialogConfirm from './components/DialogConfirm';
+import CustomizedBadges from '@/components/Badge';
+import IconButton from '@/components/IconButton/IconButton';
+import CommonImage from '@/components/Image/index';
+
+
+
+import mintz_logo from "@/assets/images/users/mintzjob-logo.png";
+import { COLORS } from '@/constants/colors';
+import { ROUTE_PATH } from '@/constants/routes';
+import useAuth from '@/hooks/useAuth';
+
 
 interface Props {
   collapsed: boolean;
@@ -22,6 +30,7 @@ interface Props {
 
 const Header = (props: Props) => {
   const theme = useTheme();
+  const { profile, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [collapsed, setCollapsed] = useState<boolean>(false);
@@ -61,86 +70,118 @@ const Header = (props: Props) => {
 
 
   if(mdUp){
-    return(
+    return (
       <AppBar
-            position='fixed'
-            sx={{
-              color: 'common.black',
-              backgroundColor: '#fff',
-              height: '64px',
-              borderBottom: 'thin solid #E6E8F0',
-              marginLeft: 'auto',
-              zIndex: 9,
-              width: '100%',
-              display: 'flex',
-              justifyContent: 'space-between'
-            }}
-          >
-            <Toolbar 
-              disableGutters 
-              sx={{ 
-                display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: 64, px: 6, // padding ngang để giới hạn chiều rộng
-              }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 10, }}>
-                <CommonImage
-                  route={ROUTE_PATH.HOME}
-                  src={mintz_logo}
-                  alt="mintz logo"
-                  sx={{ width: 50, cursor: 'pointer' }}
-                />
-                <Typography sx={styleMenu('/home')} onClick={() =>  handleMenuClick('home','/home')}>Trang chủ</Typography>
-                <Typography sx={styleMenu('/about-us')} onClick={() =>  handleMenuClick('about-us','/about-us')}>Mintz Job</Typography>
-                <Typography sx={styleMenu('/news')} onClick={() =>  handleMenuClick('news','/news')}>Tuyển dụng</Typography>
-                <Typography sx={styleMenu('/news')} onClick={() =>  handleMenuClick('news','/news')}>Tạo CV</Typography>
-              </Box>
-              <Box gap={2.5} display='flex' flexDirection='row'>
-                <Typography 
-                  component='a' href='/auth/login'
-                  fontSize='15px' mt={0.5}
-                  sx={{ 
-                    textDecoration: 'none', color: '#000', 
-                    '&:hover': { color: COLORS.MAIN, fontWeight: 500 }
-                  }} 
+        position='fixed'
+        sx={{
+          color: 'common.black',
+          backgroundColor: '#fff',
+          height: '64px',
+          borderBottom: 'thin solid #E6E8F0',
+          marginLeft: 'auto',
+          zIndex: 9,
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'space-between',
+        }}
+      >
+        <Toolbar
+          disableGutters
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            height: 64,
+            px: 6, // padding ngang để giới hạn chiều rộng
+          }}
+        >
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <CommonImage
+              route={ROUTE_PATH.HOME}
+              src={mintz_logo}
+              alt='mintz logo'
+              sx={{ width: 50, cursor: 'pointer' }}
+            />
+            <Typography sx={styleMenu('/home')} onClick={() => handleMenuClick('home', '/home')}>
+              Trang chủ
+            </Typography>
+            <Typography
+              sx={styleMenu('/about-us')}
+              onClick={() => handleMenuClick('about-us', '/about-us')}
+            >
+              Mintz Job
+            </Typography>
+            <Typography sx={styleMenu('/news')} onClick={() => handleMenuClick('news', '/news')}>
+              Tuyển dụng
+            </Typography>
+            <Typography sx={styleMenu('/news')} onClick={() => handleMenuClick('news', '/news')}>
+              Tạo CV
+            </Typography>
+          </Box>
+          <Box gap={2.5} display='flex' flexDirection='row'>
+            {isAuthenticated && (
+              <Typography>{profile?.fullName}</Typography>
+            )}
+            {!isAuthenticated && (
+              <>
+                <Typography
+                  component='a'
+                  href='/auth/login'
+                  fontSize='15px'
+                  mt={0.5}
+                  sx={{
+                    textDecoration: 'none',
+                    color: '#000',
+                    '&:hover': { color: COLORS.MAIN, fontWeight: 500 },
+                  }}
                 >
                   Đăng nhập
                 </Typography>
-                <Typography 
-                  component='a' href='/auth/register' fontSize='15px' mt={0.5}
-                  sx={{ 
-                    textDecoration: 'none', color: '#000', 
-                    '&:hover': { color: COLORS.MAIN, fontWeight: 500 }
+                <Typography
+                  component='a'
+                  href='/auth/register'
+                  fontSize='15px'
+                  mt={0.5}
+                  sx={{
+                    textDecoration: 'none',
+                    color: '#000',
+                    '&:hover': { color: COLORS.MAIN, fontWeight: 500 },
                   }}
                 >
                   Đăng ký
-                </Typography>
-                <CustomizedBadges 
-                  icon={<Notifications sx={{ width: 25, height: 25 }}/>} count={4}
-                  colorHover={COLORS.MAIN}
-                />
-                <Button
-                  onClick={handleClick}
-                  sx={{ 
-                    bgcolor: COLORS.MAIN,
-                    '&:hover': {
-                      fontWeight: 700
-                    } 
-                  }}
-                  startIcon={<PostAdd sx={{ width: 25, height: 25 }}/>}
-                >
-                  {`Đăng bài (Miễn phí)`.toUpperCase()}
-                </Button>              
-              </Box>              
-            </Toolbar>
-            {openDialogConfirm && (
-              <DialogConfirm
-                open={openDialogConfirm}
-                onClose={() => {
-                  setOpenDialogConfirm(false)
-                }}
-              />
+                </Typography>              
+              </>
             )}
-          </AppBar>
-    )
+
+            <CustomizedBadges
+              icon={<Notifications sx={{ width: 25, height: 25 }} />}
+              count={4}
+              colorHover={COLORS.MAIN}
+            />
+            <Button
+              onClick={handleClick}
+              sx={{
+                bgcolor: COLORS.MAIN,
+                '&:hover': {
+                  fontWeight: 700,
+                },
+              }}
+              startIcon={<PostAdd sx={{ width: 25, height: 25 }} />}
+            >
+              {`Đăng bài (Miễn phí)`.toUpperCase()}
+            </Button>
+          </Box>
+        </Toolbar>
+        {openDialogConfirm && (
+          <DialogConfirm
+            open={openDialogConfirm}
+            onClose={() => {
+              setOpenDialogConfirm(false);
+            }}
+          />
+        )}
+      </AppBar>
+    );
   }
 
   return (

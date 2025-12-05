@@ -5,6 +5,7 @@ import {
   LoginResponse,
   ResetPasswordRequest,
   ResetPasswordResponse,
+  SignUpRequest,
   VerifyUsernameRequest,
 } from '@/types/auth';
 import type { HttpResponse } from '@/types/common';
@@ -22,8 +23,8 @@ export const getCurrentUser = () => {
   return HttpClient.get<HttpResponse<{success: boolean, data: UserProfile}>>(`${prefix}/me`);
 };
 
-export const signUp = (params: LoginRequest) => {
-  return HttpClient.post<LoginRequest, HttpResponse>(`${prefix}/signup`, params);
+export const signUp = (params: SignUpRequest) => {
+  return HttpClient.post<SignUpRequest, HttpResponse>(`${prefix}/signup`, params);
 };
 
 export const signOut = () => {

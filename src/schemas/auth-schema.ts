@@ -1,6 +1,6 @@
 import { object, ref, string } from 'yup';
 
-export const usernameValidateSchema = string().required('Username is required');
+export const usernameValidateSchema = string().required('Email là bắt buộc');
 
 const passwordValidateSchema = string()
   .required('Password is required')
@@ -10,8 +10,8 @@ const passwordValidateSchema = string()
 
 const confirmPasswordValidateSchema = (label: string) =>
   string()
-    .oneOf([ref(label)], "Password and Confirm Password didn't match")
-    .required('Confirm Password is required');
+    .oneOf([ref(label)], "Mật khẩu và Nhập lại mật khẩu không trùng nhau")
+    .required('Nhập lại mật khẩu là bắt buộc');
 
 const passwordSchema = <T extends string>(label: T) =>
   object().shape({
@@ -21,12 +21,13 @@ const passwordSchema = <T extends string>(label: T) =>
 
 export const loginSchema = object().shape({
   username: usernameValidateSchema,
-  password: string().required('Password is required'),
+  password: string().required('Mật khẩu là bắt buộc'),
 });
 
 export const registrationSchema = object()
   .shape({
     email: usernameValidateSchema,
+    fullName: string().required('Họ tên là bắt buộc')
   })
   .concat(passwordSchema('password'));
 

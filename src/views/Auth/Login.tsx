@@ -5,36 +5,31 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 
+
+
 import { AccountCircle, Email, Facebook, Google, Lock, Visibility, VisibilityOff } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
-import {
-  Alert,
-  Box,
-  Button,
-  Checkbox,
-  FormControlLabel,
-  IconButton,
-  InputAdornment,
-  styled,
-  Typography,
-} from '@mui/material';
+import { Alert, Box, Button, Checkbox, FormControlLabel, IconButton, InputAdornment, styled, Typography } from '@mui/material';
+import MuiCard from '@mui/material/Card';
 import ControllerTextField from '@/components/ControllerField/ControllerTextField';
+import CommonImage from '@/components/Image/index';
 import Page from '@/components/Page';
 
+
+
+import bg_logo from "@/assets/images/users/login-page.png";
+import logo_mintz from "@/assets/images/users/mintzdg-logo-1.png";
+import { COLORS } from '@/constants/colors';
+import { ROLE } from '@/constants/roles';
 import { ROUTE_PATH } from '@/constants/routes';
 import useBoolean from '@/hooks/useBoolean';
 import useNotification from '@/hooks/useNotification';
 import { loginSchema } from '@/schemas/auth-schema';
+import { signIn } from '@/services/auth-service';
 import { setIsAuth } from '@/slices/auth';
 import { setProfile } from '@/slices/user';
 import { useAppDispatch } from '@/store';
 import { setAccessToken } from '@/utils/AuthHelper';
-import { signIn } from '@/services/auth-service';
-import { COLORS } from '@/constants/colors';
-import MuiCard from '@mui/material/Card';
-import bg_logo from "@/assets/images/users/login-page.png"
-import CommonImage from '@/components/Image/index';
-import logo_mintz from "@/assets/images/users/mintzdg-logo-1.png"
 
 
 export const ID_USER = 'user_id'
@@ -77,7 +72,6 @@ export default function Login() {
   const notify = useNotification();
   const [_error, setError] = useState('');
   const [showPassword, setShowPassword] = useBoolean(false);
-  const [remember, setRemember] = useState(false);
 
   useEffect(() => {
     setFocus('username');
@@ -112,8 +106,21 @@ export default function Login() {
             message: t('login_success'),
             severity: 'success',
           });
-          
-          navigate(ROUTE_PATH.MANAGE, { replace: true });        
+          switch (userProfile.role) {
+            case ROLE.ADMIN:
+              navigate(ROUTE_PATH.MANAGE, { replace: true });
+              break;
+            case ROLE.CANDIDATE:
+              navigate(ROUTE_PATH.HOME, { replace: true });
+              break;
+            case ROLE.RECRUITER:
+              navigate(ROUTE_PATH.HOME, { replace: true });
+              break;
+            case ROLE.EMPLOYEE:
+            default:
+              navigate(ROUTE_PATH.MANAGE, { replace: true });
+              break;
+          }        
         }
 
 

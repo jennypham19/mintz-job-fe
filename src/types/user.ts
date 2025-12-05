@@ -2,19 +2,23 @@ import { GroupPermission } from "./permission";
 
 // src/types/user.ts
 export interface IUser {
-    id: number;
-    username: string;
-    fullName: string;
-    role: 'admin' | 'employee' | 'mode';
-    createdAt: string;
-    updatedAt: string;
-    email?: string,
-    address?: string,
-    phone_number?: string,
-    captchaCode?:string,
-    avatar_url?:string,
-    is_deleted?: number;
-    is_default?: number;
+    id: string,
+    email: string,
+    fullName: string,
+    address: string,
+    avatarUrl: string,
+    career: string,
+    createdAt: string,
+    dob: string,
+    gender: string,
+    nameUrl: string,
+    isActived: number,
+    isResetPassword: string,
+    phone: string,
+    role: string,
+    updatedAt: string,
+    fbLink: string,
+    linkedinLink: string,
     permission?: GroupPermission
 }
 
