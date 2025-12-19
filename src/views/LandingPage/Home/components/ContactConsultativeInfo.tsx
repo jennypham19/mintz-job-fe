@@ -16,8 +16,12 @@ interface ProfileFormData {
   captchaCode: string,
 }
 
+type FormErrors = {
+    [K in keyof ProfileFormData]?: string
+}
+
 const ContactConsultativeInfo: React.FC = () => {
-    const [errors, setErrors] = useState<Partial<Record<'name' | 'email' | 'phone'| 'captchaCode' , string>>>({});
+    const [errors, setErrors] = useState<FormErrors>({});
     const [formData, setFormData] = useState<ProfileFormData>({
         name: '', email: '', phone: '', captchaCode: ''
     });
@@ -94,12 +98,8 @@ const ContactConsultativeInfo: React.FC = () => {
                     }
                 }
 
-                if (errors[validName as 'name' | 'email' | 'phone'| 'captchaCode']) {
-                    setErrors(prev => {
-                        const newErrors = { ...prev };
-                        delete newErrors[validName as 'name' | 'email' | 'phone'| 'captchaCode'];
-                        return newErrors;
-                    });
+                if (errors[name as keyof typeof errors]) {
+                    setErrors(prev => ({ ...prev, [name]: undefined}))
                 }
             }
         } else {
@@ -108,7 +108,7 @@ const ContactConsultativeInfo: React.FC = () => {
     };
 
     const validateForm = (): boolean => {
-        const newErrors: Partial<Record<'name' | 'email' | 'phone' | 'captchaCode', string>> = {};
+        const newErrors: FormErrors = {};
         if(!formData.name.trim()) newErrors.name = 'Tên đầy đủ là bắt buộc';
         if(!formData.email) newErrors.email = 'Email là bắt buộc';
         if(!formData.phone) newErrors.phone = 'Số điện thoại là bắt buộc';
@@ -122,14 +122,11 @@ const ContactConsultativeInfo: React.FC = () => {
         if(!validateForm()){
             return
         }
-        const data = {
+        const payload = {
             ...formData,
-            'createdAt': dayjs().toISOString(),
-            'updatedAt': dayjs().toISOString(),
-            'isRead':0
         }
         try {
-            const res = await sendInformation(data);
+            const res = await sendInformation(payload);
             notify({ message: res.message, severity: 'success'})
             setFormData({ name: '', email: '', phone: '', captchaCode: ''})
             setCaptcha(generateCaptcha());

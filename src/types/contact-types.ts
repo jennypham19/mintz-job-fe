@@ -1,11 +1,10 @@
-export interface Contact{
+export interface IInformation{
     id: string | number,
     name: string,
     email: string,
     phone: string,
     title: string,
-    message: string,
+    captchaCode: string,
     createdAt?: string,
     updatedAt?: string,
-    status?: number | string,
 }

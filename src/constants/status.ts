@@ -17,12 +17,27 @@ export const CATEGORY_LABELS: { [key in CategoryNews]: string} = {
 export const RoleUser = {
     ADMIN: 'admin',
     EMPLOYEE: 'employee',
-    MODE: 'mode'
+    CANDIDATE: 'candidate',
+    RECRUITER: 'recruiter'
 }
 
 export type RoleUser = typeof RoleUser[keyof typeof RoleUser];
 export const ROLE_LABELS: { [key in RoleUser]: string} = {
     [RoleUser.ADMIN]: 'Quản lý cấp cao',
     [RoleUser.EMPLOYEE]: 'Nhân viên kiểm soát',
-    [RoleUser.MODE]: 'Quản lý'
+    [RoleUser.CANDIDATE]: 'Ứng viên',
+    [RoleUser.RECRUITER]: 'Người tuyển dụng'
+}
+
+export const GenderUser = {
+    FEMALE: 'female',
+    MALE: 'male',
+    OTHER: 'other',
+}
+
+export type GenderUser = typeof GenderUser[keyof typeof GenderUser];
+export const GENDER_LABELS: { [key in GenderUser]: string} = {
+    [GenderUser.FEMALE]: 'Nữ',
+    [GenderUser.MALE]: 'Nam',
+    [GenderUser.OTHER]: 'Khác',
 }

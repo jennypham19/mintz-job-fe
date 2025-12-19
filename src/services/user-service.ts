@@ -1,135 +1,36 @@
-import type { HttpResponse, PaginatedResponse } from '@/types/common';
+import type { HttpResponse } from '@/types/common';
 import { IUser } from '@/types/user';
-import { UserProfile } from '@/types/user-types';
 import HttpClient from '@/utils/HttpClient';
+import { GetParamsAccount, PaginatedResponse } from './base-service';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api'; 
 const prefix = `${API_BASE_URL}/api/users`;
 
-interface GetUsersParams {
-  limit?: number;
-  page?: number;
-  role?: 'admin' | 'employee';
-  status: number;
-  searchTerm?: string
-}
+// Tạo tài khoản
 
-export type UsersResponse = PaginatedResponse<IUser>;
-
-export const getUsers = (params: GetUsersParams) => {
-  return HttpClient.get<any, HttpResponse<UsersResponse>>(`${prefix}`, { params });
-};
-
-export interface CheckoutApiUsersResponse {
-  totalCount: number;
-  totalPages: number;
-  currentPage: number;
-  pageSize: number;
-  data: UserProfile; 
-}
-
-export interface CheckoutApiUserResponse {
-  message: string;
-  success: boolean;
-  data: UserProfile; 
-}
-
-export interface UserPayload {
-  is_actived: number
-}
-
-export const createAccount = (FormData: FormData) => {
-  const endpoint = `${prefix}/create-account`;
-  return HttpClient.post<FormData, HttpResponse<UserProfile>>(endpoint, FormData);
-}
-
-export const updateAccount = (id: string | number, FormData: FormData) => {
-  if(!FormData) return;
-  return HttpClient.put<FormData, HttpResponse<UserProfile>>(
-    `${prefix}/update/${id}`,
-    FormData
-  )
-}
-
-export const getListUsers = async(
-  page: number,
-  size: number,
-  role?: string,
-  status?: number | string,
-  searchTerm?: string
-): Promise<CheckoutApiUsersResponse> => {
-  let url = `${prefix}/get-all-users`;
+// Lấy ra danh sách tất cả tài khoản, bao gồm (quản trị viên, ứng viên, nhân viên, người truyển dụng)
+export const getListAccounts = async(getParams: GetParamsAccount): Promise<HttpResponse<PaginatedResponse<IUser>>> => {
+  const url = `${prefix}/list-accounts`;
   const params: Record<string, any> = {
-        page: page,
-        size: size,
+    page: getParams.page,
+    limit: getParams.limit
   };
-  if (role !== undefined && role !== 'all') {
-    params.role = role;
+  if(getParams.role !== 'all'){
+    params.role = getParams.role
   }
-  if(searchTerm && searchTerm.trim()){
-    params.searchTerm = searchTerm
+
+  if(getParams.searchTerm && getParams.searchTerm.trim()){
+    params.searchTerm = getParams.searchTerm
   }
-  if (status !== undefined && status !== 'all') {
-    params.status = status;
-  }
+
   const response = await HttpClient.get<{
     success: boolean,
     message: string,
-    data: CheckoutApiUsersResponse;
+    data: PaginatedResponse<IUser>
   }>(url, { params });
   if(response.data && response.success && response.data){
-    return response.data;
+    return response;
   }else{
-    throw new Error(response.message || 'Failed to fetch list user');
+    throw new Error(response.message || 'Failed to fetch list accounts')
   }
-};
-
-export const getUser = async(
-  id: string | number
-): Promise<CheckoutApiUserResponse> => {
-  let url = `${prefix}/${id}`;
-  const response = await HttpClient.get<{
-    success: boolean,
-    message: string,
-    data: CheckoutApiUserResponse;
-  }>(url);
-  if(response.data && response.success && response.data){
-    return response.data;
-  }else{
-    throw new Error(response.message || 'Failed to fetch list user');
-  }
-}
-
-// export const deleteUser = (id: string | number) => {
-//     return HttpClient.patch<any, HttpResponse<UserProfile | null>>(
-//         `${prefix}/users/${id}`
-//     )
-// }
-
-export const resetUser = (id: string | number) => {
-    return HttpClient.patch<any, HttpResponse<UserProfile | null>>(
-        `${prefix}/reset/${id}`
-    )
-}
-
-export const unactiveUser = async (
-  id: string | number,
-  payload: UserPayload
-): Promise<HttpResponse<UserProfile>> => {
-  const url = `${prefix}/unactive/${id}`;
-  return HttpClient.patch<UserProfile>(url, payload as any);
-};
-
-export const activeUser = async (
-  id: string | number,
-  payload: UserPayload
-): Promise<HttpResponse<UserProfile>> => {
-  const url = `${prefix}/active/${id}`;
-  return HttpClient.patch<UserProfile>(url, payload as any);
-}
-
-export const deleteUser = (id: string | number) => {
-    return HttpClient.delete<any, HttpResponse<UserProfile | null>>(
-        `${prefix}/delete/${id}`
-    )
 }

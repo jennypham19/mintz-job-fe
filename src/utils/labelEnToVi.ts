@@ -1,4 +1,4 @@
-import { CATEGORY_LABELS, CategoryNews, ROLE_LABELS, RoleUser } from "@/constants/status";
+import { CATEGORY_LABELS, CategoryNews, GENDER_LABELS, GenderUser, ROLE_LABELS, RoleUser } from "@/constants/status";
 
 export const getRoleLabel = (role: RoleUser | null | undefined): string => {
     if(!role) return "Chưa xác định";
@@ -14,6 +14,11 @@ export const getFormatText = (content: string): string => {
 }
 
 export const getCategoryLabel = (category: CategoryNews | null | undefined): string => {
-    if(!category) return 'TẤT CẢ';
+    if(!category) return '';
     return CATEGORY_LABELS[category] || category
+}
+
+export const getUserGenderLabel = (gender: GenderUser | null | undefined): string => {
+    if(!gender) return '';
+    return GENDER_LABELS[gender] || gender
 }
