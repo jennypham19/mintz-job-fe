@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 
 
-import { AppRegistration, DensityMedium, Login, Notifications, PostAdd } from '@mui/icons-material';
+import { AppRegistration, DensityMedium, Login, Notifications, Person, PostAdd } from '@mui/icons-material';
 import { Box, Button, IconButton as MuiIconButton, Typography, useMediaQuery } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import { useTheme } from '@mui/material/styles';
@@ -20,6 +20,8 @@ import mintz_logo from "@/assets/images/users/mintzjob-logo.png";
 import { COLORS } from '@/constants/colors';
 import { ROUTE_PATH } from '@/constants/routes';
 import useAuth from '@/hooks/useAuth';
+import { ROLE } from '@/constants/roles';
+import Profile from './components/Profile';
 
 
 interface Props {
@@ -120,7 +122,7 @@ const Header = (props: Props) => {
           </Box>
           <Box gap={2.5} display='flex' flexDirection='row'>
             {isAuthenticated && (
-              <Typography>{profile?.fullName}</Typography>
+              <Profile/>
             )}
             {!isAuthenticated && (
               <>
@@ -158,18 +160,20 @@ const Header = (props: Props) => {
               count={4}
               colorHover={COLORS.MAIN}
             />
-            <Button
-              onClick={handleClick}
-              sx={{
-                bgcolor: COLORS.MAIN,
-                '&:hover': {
-                  fontWeight: 700,
-                },
-              }}
-              startIcon={<PostAdd sx={{ width: 25, height: 25 }} />}
-            >
-              {`Đăng bài (Miễn phí)`.toUpperCase()}
-            </Button>
+            {profile?.role !== ROLE.CANDIDATE && (
+              <Button
+                onClick={handleClick}
+                sx={{
+                  bgcolor: COLORS.MAIN,
+                  '&:hover': {
+                    fontWeight: 700,
+                  },
+                }}
+                startIcon={<PostAdd sx={{ width: 25, height: 25 }} />}
+              >
+                {`Đăng bài (Miễn phí)`.toUpperCase()}
+              </Button>
+            )}
           </Box>
         </Toolbar>
         {openDialogConfirm && (
@@ -230,16 +234,23 @@ const Header = (props: Props) => {
         }}>
 
           <Box display='flex' flexDirection='row'>
-            <IconButton
-              tooltip='Đăng nhập'
-              icon={<Login sx={{ width: 25, height: 25 }}/>}
-              handleFunt={() => navigate('/auth/login')}
-            />
-            <IconButton
-              tooltip='Đăng ký'
-              icon={<AppRegistration sx={{ width: 25, height: 25 }}/>}
-              handleFunt={() => navigate('/auth/register')}
-            />
+            {isAuthenticated && (
+              <Profile/>
+            )}
+            {!isAuthenticated && (
+              <>
+                <IconButton
+                  tooltip='Đăng nhập'
+                  icon={<Login sx={{ width: 25, height: 25 }}/>}
+                  handleFunt={() => navigate('/auth/login')}
+                />
+                <IconButton
+                  tooltip='Đăng ký'
+                  icon={<AppRegistration sx={{ width: 25, height: 25 }}/>}
+                  handleFunt={() => navigate('/auth/register')}
+                />              
+              </>
+            )}
             <CustomizedBadges tooltip='Thông báo' icon={<Notifications sx={{ width: 25, height: 25 }}/>} count={4}/>
             <IconButton
               handleFunt={handleClick}

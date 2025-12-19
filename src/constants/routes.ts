@@ -15,11 +15,9 @@ export const ROUTE_PATH = {
  MANAGE_HOME: 'home', 
  MANAGE_ACCOUNT: 'account', 
  MANAGE_SETTINGS: 'settings', 
- MANAGE_ANALYTICS: 'analytics', 
  MANAGE_BLOG: 'blog', 
- BLOG_CREATE: 'create', 
- BLOG_DETAIL: ':postId',
- BLOG_EDIT:'edit/:postId',
+ MANAGE_INFORMATION: 'information',
+ MANAGE_CV: 'cv',
 
   //Staff
   STAFF:"staff",

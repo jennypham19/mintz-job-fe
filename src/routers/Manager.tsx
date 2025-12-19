@@ -1,20 +1,15 @@
 import Loadable from "@/components/Loadable";
 import { ROUTE_PATH } from "@/constants/routes";
 import { lazy } from "react";
-import { Navigate, Outlet, RouteObject } from "react-router-dom";
+import { Navigate, RouteObject } from "react-router-dom";
 
 const ManagementHome = Loadable(lazy(() => import('@/views/Manager/Home/index')));
 const ManagementAccount = Loadable(lazy(() => import('@/views/Manager/Account/index')));
 const ManagementBlog = Loadable(lazy(() => import('@/views/Manager/Blog/index')));
-const CreatePost = Loadable(lazy(() => import('@/views/Manager/Blog/CreatePost')));
-const PostDetail = Loadable(lazy(() => import('@/views/Manager/Blog/PostDetailPage')));
-
-const ManagementCustomersInformation = Loadable(lazy(() => import('@/views/Manager/AccountCus/index')));
 const Profile = Loadable(lazy(() => import('@/views/Manager/Profile/index')));
-const PortfolioServiceBuild = Loadable(lazy(() =>  import('@/views/Manager/PortfolioAndServiceAndBuild/index')))
-const EditPost = Loadable(lazy(() => import('@/views/Manager/Blog/EditPost')));
+const ManagementInformation = Loadable(lazy(() => import('@/views/Manager/Information/index')));
+const ManagementCV = Loadable(lazy(() => import('@/views/Manager/CV/index')));
 
-const Analytics = Loadable(lazy(() => import('@/views/Manager/Analytics/index')));
 
 const managerRoutes: RouteObject[] = [
   { index: true, element: <Navigate to={ROUTE_PATH.MANAGE_HOME} replace /> },
@@ -22,20 +17,11 @@ const managerRoutes: RouteObject[] = [
   { path: ROUTE_PATH.MANAGE_ACCOUNT, element: <ManagementAccount /> },
   {
     path: ROUTE_PATH.MANAGE_BLOG, 
-    element: <Outlet />,
-    children: [
-      { index: true, element: <ManagementBlog /> },
-      { path: ROUTE_PATH.BLOG_CREATE, element: <CreatePost /> },
-      { 
-        path: ROUTE_PATH.BLOG_DETAIL,
-        element: <PostDetail /> 
-      },
-      { path: ROUTE_PATH.BLOG_EDIT, element: <EditPost /> },
-    ],
+    element: <ManagementBlog />,
   },
-  { path: ROUTE_PATH.MY_PROFILE, element: <ManagementCustomersInformation/>},
+  { path: ROUTE_PATH.MANAGE_INFORMATION, element: <ManagementInformation/>},
+  { path: ROUTE_PATH.MANAGE_CV, element: <ManagementCV/>},
   { path: ROUTE_PATH.TO_PROFILE, element: <Profile/>},
-  { path: ROUTE_PATH.MANAGE_ANALYTICS, element: <Analytics/>},
 
 ];
 

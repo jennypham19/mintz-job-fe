@@ -1,55 +1,52 @@
 import { HttpResponse } from "@/types/common";
-import { Contact } from "@/types/contact-types";
+import { IInformation } from "@/types/contact-types";
 import HttpClient from "@/utils/HttpClient";
+import { GetParams, PaginatedResponse } from "./base-service";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api'; 
-const prefix = `${API_BASE_URL}/api/contacts`;
+const prefix = `${API_BASE_URL}/api/informations`;
 
 interface ProfileDataRequest {
   name: string;
   email: string;
   phone: string;
-  createdAt?:string;
-  updatedAt?: string;
-  isRead: number
-}
-interface GetContactsParams {
-  page: number;
-  limit: number;
-  status?: number | string,
-  searchTerm?: string,
-}
-
-interface PaginatedResponse<T> {
-  contacts?: T[]; // Dùng users hoặc tên phù hợp
-  totalPages: number;
-  currentPage: number;
-  totalContact: number;
+  captchaCode: string
 }
 
 export interface ContactPayload {
   status: number
 }
 
-export type ContactsResponse = PaginatedResponse<Contact>;
-
-export const sendInformation = (data: ProfileDataRequest) => {
-    const endpoint = `${prefix}/send`;
-    return HttpClient.post<any, HttpResponse<Contact>>(endpoint, data);
+export const sendInformation = (payload: ProfileDataRequest) => {
+    const endpoint = `${prefix}/information-send`;
+    return HttpClient.post<any>(endpoint, payload);
 }
 
-export const getContacts = (params: GetContactsParams) => {
-  return HttpClient.get<any, HttpResponse<ContactsResponse>>(`${prefix}`, { params });
-};
+export const getInformations = async(getParams: GetParams): Promise<HttpResponse<PaginatedResponse<IInformation>>> => {
+  const url = `${prefix}/list-informations`;
+  const params: Record<string, any> = {
+    page: getParams.page,
+    limit: getParams.limit
+  };
+  if(getParams.searchTerm && getParams.searchTerm.trim()){
+    params.searchTerm = getParams.searchTerm
+  }
 
-export const getContact = (id: string | number) => {
-  return HttpClient.get<any, HttpResponse<ContactsResponse>>(`${prefix}/${id}`);
-};
+  if(getParams.status !== 'all'){
+    params.status = getParams.status
+  };
 
-export const forwardContact = async (
-  id: string | number,
-  payload: ContactPayload
-): Promise<HttpResponse<Contact>> => {
-  const url = `${prefix}/forward/${id}`;
-  return HttpClient.patch<Contact>(url, payload as any);
+  const response = await HttpClient.get<{
+    success: boolean,
+    message: string,
+    data: PaginatedResponse<IInformation>
+  }>(url, { params });
+  if(response.data && response.success && response.data){
+    return response
+  }else{
+    throw new Error(response.message || 'Failed to fetch list informations')
+  }
 }
+
+
+

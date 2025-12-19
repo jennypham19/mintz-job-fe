@@ -38,22 +38,6 @@ const routes: RouteObject[] = [
       },
     ],
   },
-  {
-    path: '/',
-    element: <AuthGuard />,
-    children: [
-      {
-        element: <LandingPageLayout />,
-        children: [
-          { path: 'home', element: <Home /> },
-          { path: 'about-us', element: <AboutUs /> },
-          { path: 'news', element: <News /> },
-          { path: 'new-post', element: <PostLandingPage /> },
-          { index: true, element: <Navigate to='/home' replace /> },
-        ],
-      },
-    ],
-  },
 
   // --- NHÁNH 2: CÁC TRANG XÁC THỰC (CHỈ DÀNH CHO NGƯỜI CHƯA ĐĂNG NHẬP) ---
   {

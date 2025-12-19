@@ -9,9 +9,7 @@ import { useAppSelector } from '@/store';
 
 const PublicRoute = ({  }) => {
   const { isAuthenticated, profile } = useAppSelector((state) => state.auth);
-  console.log('isAuthenticated: ', isAuthenticated);
   
-
   if (isAuthenticated) {
     switch (profile?.role) {
       case ROLE.ADMIN:

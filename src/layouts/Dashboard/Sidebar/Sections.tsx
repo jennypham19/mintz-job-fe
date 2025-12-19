@@ -4,11 +4,9 @@ import type { SvgIconComponent } from '@mui/icons-material';
 import { 
   HomeOutlined, 
   PostAdd, 
-  ContactsOutlined,
   ManageAccountsOutlined, 
-  AccountCircleOutlined,  
-  Settings,
-  Analytics
+  Article,
+  ManageAccounts
 } from '@mui/icons-material';
 
 import { ROUTE_PATH } from '@/constants/routes';
@@ -49,24 +47,26 @@ const Sections = (profile: IUser | null, menuData: GroupPermission | null): Sect
         icon: ManageAccountsOutlined,
       },
       {
-        title: 'Quản lý Bài viết',
+        title: 'Quản lý Thông tin',
+        path: `/${ROUTE_PATH.MANAGE}/${ROUTE_PATH.MANAGE_INFORMATION}`,
+        icon: ManageAccounts,
+      },
+      {
+        title: 'Quản lý Bài đăng',
         path: `/${ROUTE_PATH.MANAGE}/${ROUTE_PATH.MANAGE_BLOG}`,
         icon: PostAdd,
       },
       {
-        title: 'Thống kê lượt truy cập',
-        path: `/${ROUTE_PATH.MANAGE}/${ROUTE_PATH.MANAGE_ANALYTICS}`,
-        icon: Analytics,
-      },
-      // {
-      //   title: 'Quản lý Hình ảnh, Dịch vụ...',
-      //   path: `/${ROUTE_PATH.MANAGE}/${ROUTE_PATH.MANAGE_SETTINGS}`,
-      //   icon: Settings
-      // },    
+        title: 'Quản lý CV',
+        path: `/${ROUTE_PATH.MANAGE}/${ROUTE_PATH.MANAGE_CV}`,
+        icon: Article,
+      },     
     ];
 
   const isAdmin = profile.role?.toLowerCase().trim() === 'admin';
-  let accountItem: SectionItem[] = isAdmin ? menuItems : sectionItems;
+  // let accountItem: SectionItem[] = isAdmin ? menuItems : sectionItems;
+  
+  let accountItem: SectionItem[] = menuItems;
 
   return [
     {
